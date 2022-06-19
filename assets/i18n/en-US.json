@@ -1,0 +1,21 @@
+{
+  "app_name": "ShopZad",
+  "test":"Search with Fahmy and Islam",
+  "sec1_title": "Hot Deals",
+  "sec2_title": "Spa & Massage",
+  "sec3_title": "Fashion & Accessories",
+  "sec4_title": "Digital & Electronics",
+  "sec5_title": "New Products",
+  "bestselling": "Bestselling",
+  "featured": "Featured",
+  "new_arrivals": "New Arrivals",
+  "top_reviewed": "Top Reviewed",
+
+  "s_featured_items": "Featured Items",
+  "s_newest_items": "Newest Items",
+  "s_a_to_z": "A to Z",
+  "s_z_to_a": "Z to A",
+  "s_by_review": "By Review",
+  "s_price_ascending": "Price: Ascending",
+  "s_price_descending": "Price: Descending"
+}

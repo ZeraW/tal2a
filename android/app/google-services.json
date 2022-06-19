@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "184619389358",
+    "project_id": "tal2a-9ca7b",
+    "storage_bucket": "tal2a-9ca7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184619389358:android:14507f6de6dffd2320783f",
+        "android_client_info": {
+          "package_name": "com.example.tal2a"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184619389358-uiijbpv2ke0bkqbc1u5iua1s343a8hbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq7sAk0Ejv8MRvcFRlT0KPC0cngk9GD8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184619389358-uiijbpv2ke0bkqbc1u5iua1s343a8hbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
