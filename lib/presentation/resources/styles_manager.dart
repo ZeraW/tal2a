@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'color_manager.dart';
 import 'font_manager.dart';
 
 TextStyle _getTextStyle(double fontSize, FontWeight fontWeight, Color color) {
@@ -44,3 +45,12 @@ TextStyle getSemiBoldStyle(
     {double fontSize = FontSize.s14, required Color color}) {
   return _getTextStyle(fontSize, FontWeightManager.semiBold, color);
 }
+
+ButtonStyle correctStyle(){
+  return ButtonStyle(backgroundColor: ColorManager.materialColor(ColorManager.green));
+}
+
+ButtonStyle wrongStyle(){
+  return ButtonStyle(backgroundColor: ColorManager.materialColor(ColorManager.error));
+}
+

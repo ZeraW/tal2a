@@ -10,63 +10,66 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          const SizedBox(
-            height: 15,
-          ),
-          Image.asset(
-            "assets/images/splash_logo.png",
-            width: 135,
-            height: 135,
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          DrawerListTile(
-            title: "لوحة التحكم",
-            check:title,
-            press: () {
+    return SizedBox(
+      width: AppSize.s200,
+      child: Drawer(
+        child: ListView(
+          children: [
+            const SizedBox(
+              height: 15,
+            ),
+            Image.asset(
+              "assets/images/splash_logo.png",
+              width: 135,
+              height: 135,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            DrawerListTile(
+              title: "لوحة التحكم",
+              check:title,
+              press: () {
 
-            },
-          ),
-          DrawerListTile(
-            title: "بيك اب",
-            check:title,
-            press: () {
+              },
+            ),
+            DrawerListTile(
+              title: "بيك اب",
+              check:title,
+              press: () {
 
-            },
-          ),
-          DrawerListTile(
-            title: "اضافة شحنات",
-            check:title,
-            press: () {
+              },
+            ),
+            DrawerListTile(
+              title: "اضافة شحنات",
+              check:title,
+              press: () {
 
-            },
-          ),
-          DrawerListTile(
-            title: "شحناتي",
-            check:title,
-            press: () {
+              },
+            ),
+            DrawerListTile(
+              title: "شحناتي",
+              check:title,
+              press: () {
 
-            },
-          ),
-          DrawerListTile(
-            title: "سجلات السداد",
-            check:title,
-            press: () {
+              },
+            ),
+            DrawerListTile(
+              title: "سجلات السداد",
+              check:title,
+              press: () {
 
-            },
-          ),
-          DrawerListTile(
-            title: "التقارير",
-            check:title,
-            press: () {
+              },
+            ),
+            DrawerListTile(
+              title: "التقارير",
+              check:title,
+              press: () {
 
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
