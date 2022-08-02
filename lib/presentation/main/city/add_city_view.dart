@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pluto_grid/pluto_grid.dart';
-import 'package:provider/provider.dart';
-import 'package:tal2a/presentation/common/mold/main_mold.dart';
-import 'package:tal2a/presentation/resources/color_manager.dart';
-import 'package:tal2a/presentation/resources/responsive.dart';
 import 'package:tal2a/presentation/resources/values_manager.dart';
-import 'dart:ui' as ui;
-
-import '../../common/dropdown.dart';
 import '../../common/text_field.dart';
-import '../../models/pluto_model.dart';
 import '../../resources/styles_manager.dart';
 
 class AddCityScreen extends StatelessWidget {
@@ -29,6 +20,7 @@ class AddCityScreen extends StatelessWidget {
                   onPressed: () {
 
                   },
+                  style: correctStyle(),
                   child: Row(
                     children: const [
                       Icon(Icons.check_outlined),
@@ -38,13 +30,13 @@ class AddCityScreen extends StatelessWidget {
                       Text('حفظ'),
                     ],
                   ),
-                  style: correctStyle(),
                 ),
                 const SizedBox(
                   width: AppSize.s12,
                 ),
                 ElevatedButton(
                   onPressed: () {},
+                  style: wrongStyle(),
                   child: Row(
                     children: const [
                       Icon(Icons.close),
@@ -54,7 +46,6 @@ class AddCityScreen extends StatelessWidget {
                       Text('إلغاء'),
                     ],
                   ),
-                  style: wrongStyle(),
                 ),
               ],
             ),

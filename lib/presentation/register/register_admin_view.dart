@@ -5,22 +5,22 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tal2a/presentation/common/text_field.dart';
-import '../common/dropdown.dart';
+
 import '../provider/auth_provider.dart';
 import '../resources/styles_manager.dart';
 import '../resources/values_manager.dart';
 
-class RegisterClientView extends StatefulWidget {
-  const RegisterClientView({Key? key}) : super(key: key);
+class RegisterAdminView extends StatefulWidget {
+  const RegisterAdminView({Key? key}) : super(key: key);
 
   @override
-  _RegisterClientViewState createState() => _RegisterClientViewState();
+  _RegisterAdminViewState createState() => _RegisterAdminViewState();
 }
 
-class _RegisterClientViewState extends State<RegisterClientView> {
+class _RegisterAdminViewState extends State<RegisterAdminView> {
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<RegisterClientProvider>();
+    final provider = context.read<RegisterAdminProvider>();
 
     return Card(
         child: SingleChildScrollView(
@@ -79,22 +79,11 @@ class _RegisterClientViewState extends State<RegisterClientView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: TextFormBuilder(
-                      controller: provider.code,
-                      errorText: 'هذا الحقل مطلوب',
-                      hint: 'كود العميل',
-                      isRequired: true,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
                     flex: 2,
                     child: TextFormBuilder(
                       controller: provider.name,
                       errorText: "هذا الحقل مطلوب",
-                      hint: 'اسم العميل',
+                      hint: 'الاسم',
                       isRequired: true,
                     ),
                   ),
@@ -104,9 +93,9 @@ class _RegisterClientViewState extends State<RegisterClientView> {
                   Expanded(
                     flex: 2,
                     child: TextFormBuilder(
-                      controller: provider.companyName,
+                      controller: provider.email,
                       errorText: 'هذا الحقل مطلوب',
-                      hint: 'اسم شركة العميل',
+                      hint: 'البريد الالكتروني',
                       isRequired: true,
                     ),
                   ),
@@ -131,48 +120,13 @@ class _RegisterClientViewState extends State<RegisterClientView> {
                   ),
                   Expanded(
                     child: TextFormBuilder(
-                      controller: provider.phoneNumber2,
+                      controller: provider.password,
+                      isPassword: true,
                       errorText: 'هذا الحقل مطلوب',
-                      hint: 'رقم هاتف بديل',
+                      hint: 'كلمة المرور',
+                      isRequired: true,
                     ),
                   ),
-                ],
-          ),
-          const SizedBox(
-                height: 10,
-          ),
-          TextFormBuilder(
-            controller: provider.addressLine,
-            errorText: 'هذا الحقل مطلوب',
-            hint: 'عنوان',
-            isRequired: true,
-          ),
-          const SizedBox(
-                height: 10,
-          ),
-          Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const[
-                  Expanded(child: DropDownWidget(
-                      title: 'المدينة',
-                      hint: 'اختر مدينة',
-                      isRequired: true,
-                      list: [
-                        '1',
-                        '2',
-                      ])),
-                   SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(child: DropDownWidget(
-                      title: 'المنطقة',
-                      hint: 'اختر منطقة',
-                      isRequired: true,
-
-                      list: [
-                        '1',
-                        '2',
-                      ])),
                 ],
           ),
           const SizedBox(
@@ -183,25 +137,18 @@ class _RegisterClientViewState extends State<RegisterClientView> {
                 children: [
                   Expanded(
                     child: TextFormBuilder(
-                      controller: provider.password,
-                      isPassword: true,
-                      errorText: 'هذا الحقل مطلوب',
-                      hint: 'كلمة المرور',
-                      isRequired: true,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-
-                  Expanded(
-                    child: TextFormBuilder(
                       controller: provider.confirmPassword,
                       isPassword: true,
                       errorText: 'هذا الحقل مطلوب',
                       hint: 'تأكيد كلمة المرور',
                       isRequired: true,
                     ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  const Expanded(
+                    child: SizedBox(),
                   ),
                 ],
           ),

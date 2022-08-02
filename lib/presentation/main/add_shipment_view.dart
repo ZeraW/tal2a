@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pluto_grid/pluto_grid.dart';
-import 'package:provider/provider.dart';
-import 'package:tal2a/presentation/common/mold/main_mold.dart';
 import 'package:tal2a/presentation/resources/color_manager.dart';
 import 'package:tal2a/presentation/resources/responsive.dart';
 import 'package:tal2a/presentation/resources/values_manager.dart';
-import 'dart:ui' as ui;
-
 import '../common/dropdown.dart';
 import '../common/text_field.dart';
 import '../common/text_with_green_background.dart';
-import '../models/pluto_model.dart';
 import '../resources/styles_manager.dart';
 class AddNewShipmentScreen extends StatelessWidget {
   final ScrollController controller = ScrollController(keepScrollOffset: false);
@@ -39,15 +33,15 @@ class AddNewShipmentScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {},
+                  style: btnStyle(color: ColorManager.purple),
                   child: const Text(
                     'طباعة جميع الشحنات',
                   ),
-                  style: btnStyle(color: ColorManager.purple),
                 ),
               ],
             ),
           ),
-          Divider(color: ColorManager.grey3, height: AppSize.s0),
+          const Divider(color: ColorManager.grey3, height: AppSize.s0),
           Expanded(
             child: Scrollbar(
               controller: controller,
@@ -76,7 +70,7 @@ class AddNewShipmentScreen extends StatelessWidget {
                                   child: TextFieldWidget(title: 'اليوم')),
                             ],
                           ),
-                          Divider(
+                          const Divider(
                               color: ColorManager.grey3, height: AppSize.s12),
                           Padding(
                             padding: const EdgeInsets.only(
@@ -88,10 +82,10 @@ class AddNewShipmentScreen extends StatelessWidget {
                                   width: 200,
                                   child: ElevatedButton(
                                     onPressed: () {},
+                                    style: btnStyle(color: ColorManager.black),
                                     child: const Text(
                                       'حفظ',
                                     ),
-                                    style: btnStyle(color: ColorManager.black),
                                   ),
                                 ),
                                 const SizedBox(

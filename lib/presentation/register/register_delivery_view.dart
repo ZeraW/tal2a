@@ -1,9 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tal2a/presentation/common/text_field.dart';
+
 import '../common/dropdown.dart';
-import '../common/hoverd.dart';
 import '../provider/auth_provider.dart';
 import '../resources/styles_manager.dart';
 import '../resources/values_manager.dart';
@@ -33,6 +36,7 @@ class _RegisterDeliveryViewState extends State<RegisterDeliveryView> {
                   provider.validate();
 
                 },
+                style: correctStyle(),
                 child: Row(
                   children: const [
                     Icon(Icons.check_outlined),
@@ -42,13 +46,15 @@ class _RegisterDeliveryViewState extends State<RegisterDeliveryView> {
                     Text('حفظ'),
                   ],
                 ),
-                style: correctStyle(),
               ),
               const SizedBox(
                 width: AppSize.s12,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pop();
+                },
+                style: wrongStyle(),
                 child: Row(
                   children: const [
                     Icon(Icons.close),
@@ -58,7 +64,6 @@ class _RegisterDeliveryViewState extends State<RegisterDeliveryView> {
                     Text('إلغاء'),
                   ],
                 ),
-                style: wrongStyle(),
               ),
             ],
           ),

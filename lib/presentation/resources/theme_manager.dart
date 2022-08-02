@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tal2a/presentation/resources/styles_manager.dart';
 import 'package:tal2a/presentation/resources/values_manager.dart';
+
 import 'color_manager.dart';
 import 'font_manager.dart';
 
@@ -12,10 +13,10 @@ ThemeData getApplicationTheme() {
     primaryColorDark: ColorManager.darkPrimary,
     disabledColor: ColorManager.grey1,
     splashColor: ColorManager.lightPrimary,
-    drawerTheme: DrawerThemeData(backgroundColor: ColorManager.primary,/*width: AppSize.s200*/),
+    drawerTheme: const DrawerThemeData(backgroundColor: ColorManager.primary,/*width: AppSize.s200*/),
     // ripple effect color
     // cardview theme
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
         color: ColorManager.white,
         shadowColor: ColorManager.grey,
         elevation: AppSize.s4),
@@ -29,8 +30,8 @@ ThemeData getApplicationTheme() {
         titleTextStyle:
             getRegularStyle(fontSize: FontSize.s16, color: ColorManager.white)),
     // button theme
-    buttonTheme: ButtonThemeData(
-        shape: const StadiumBorder(),
+    buttonTheme: const ButtonThemeData(
+        shape: StadiumBorder(),
         disabledColor: ColorManager.grey1,
         buttonColor: ColorManager.primary,
         splashColor: ColorManager.lightPrimary),
@@ -70,27 +71,27 @@ ThemeData getApplicationTheme() {
         errorStyle: getRegularStyle(color: ColorManager.error),
 
         // enabled border style
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: const OutlineInputBorder(
             borderSide:
                 BorderSide(color: ColorManager.grey3, width: AppSize.s1_5),
-            borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
 
         // focused border style
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
             borderSide:
                 BorderSide(color: ColorManager.primary, width: AppSize.s1_5),
-            borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
 
         // error border style
-        errorBorder: OutlineInputBorder(
+        errorBorder: const OutlineInputBorder(
             borderSide:
                 BorderSide(color: ColorManager.error, width: AppSize.s1_5),
-            borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8))),
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
         // focused border style
-        focusedErrorBorder: OutlineInputBorder(
+        focusedErrorBorder: const OutlineInputBorder(
             borderSide:
                 BorderSide(color: ColorManager.primary, width: AppSize.s1_5),
-            borderRadius: const BorderRadius.all(Radius.circular(AppSize.s8)))),
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s8)))),
     // label style
   );
 }

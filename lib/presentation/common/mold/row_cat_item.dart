@@ -6,12 +6,14 @@ import 'package:tal2a/presentation/resources/color_manager.dart';
 class DrawerCatItem extends StatefulWidget {
   final String title;
   final Function()? onTap;
-  final bool? isLast;
+  final bool? isLast,selected;
   final List<SubCatModel>? itemList;
   const DrawerCatItem(
       {required this.title,
         this.onTap,
         this.isLast = false,
+        this.selected = false,
+
         this.itemList,
       Key? key})
       : super(key: key);
@@ -22,16 +24,17 @@ class DrawerCatItem extends StatefulWidget {
 
 class _DrawerCatItemState extends State<DrawerCatItem> {
   bool isExpanded = false;
-
   @override
   Widget build(BuildContext context) {
+    Color color = widget.selected! ? ColorManager.white : ColorManager.offWhite;
+
     return Column(
       children: [
         ListTile(
           leading: Icon(
             Icons.image,
             size: 22,
-            color: isExpanded ? ColorManager.white : ColorManager.offWhite,
+            color: color,
           ),
           minLeadingWidth: 0,
           onTap: widget.onTap??()=> setState(() {
@@ -41,7 +44,7 @@ class _DrawerCatItemState extends State<DrawerCatItem> {
             widget.title,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: isExpanded ? ColorManager.white : ColorManager.offWhite,
+              color: color,
             ),
           ),
           trailing: Visibility(
@@ -55,17 +58,17 @@ class _DrawerCatItemState extends State<DrawerCatItem> {
                     ? Icons.keyboard_arrow_down
                     : Icons.keyboard_arrow_left,
                 size: 22,
-                color: isExpanded ? ColorManager.white : ColorManager.offWhite,
+                color: color,
               ),
             ),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 0),
         ),
         isExpanded ?  _SubSubCatWidget(itemList: widget.itemList??[],) : const SizedBox(), //todo pass the SubCatList to _SubCatWidget()
         !widget.isLast!
             ? Container(
                 margin:
-                    const EdgeInsetsDirectional.only(start: 30.0, end: 30.0),
+                    const EdgeInsetsDirectional.only(start: 30.0, end: 30.0,top: 2),
                 height: 0.5,
                 width: double.infinity,
                 color: ColorManager.offWhite,

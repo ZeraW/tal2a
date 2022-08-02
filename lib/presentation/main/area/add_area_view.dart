@@ -21,6 +21,7 @@ class AddAreaScreen extends StatelessWidget {
                   onPressed: () {
 
                   },
+                  style: correctStyle(),
                   child: Row(
                     children: const [
                       Icon(Icons.check_outlined),
@@ -30,13 +31,13 @@ class AddAreaScreen extends StatelessWidget {
                       Text('حفظ'),
                     ],
                   ),
-                  style: correctStyle(),
                 ),
                 const SizedBox(
                   width: AppSize.s12,
                 ),
                 ElevatedButton(
                   onPressed: () {},
+                  style: wrongStyle(),
                   child: Row(
                     children: const [
                       Icon(Icons.close),
@@ -46,7 +47,6 @@ class AddAreaScreen extends StatelessWidget {
                       Text('إلغاء'),
                     ],
                   ),
-                  style: wrongStyle(),
                 ),
               ],
             ),

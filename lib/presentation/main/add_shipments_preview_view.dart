@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pluto_grid/pluto_grid.dart';
-import 'package:provider/provider.dart';
-import 'package:tal2a/presentation/common/mold/main_mold.dart';
 import 'package:tal2a/presentation/resources/color_manager.dart';
-import 'package:tal2a/presentation/resources/responsive.dart';
 import 'package:tal2a/presentation/resources/values_manager.dart';
-import 'dart:ui' as ui;
-
-import '../common/dropdown.dart';
-import '../common/text_field.dart';
-import '../models/pluto_model.dart';
 import '../resources/styles_manager.dart';
 
 class AddShipmentsPreviewScreen extends StatelessWidget {
@@ -40,15 +31,15 @@ class AddShipmentsPreviewScreen extends StatelessWidget {
                     context.goNamed('import-excel');
 
                   },
+                  style: btnStyle(color: ColorManager.purple),
                   child: const Text(
                     'تصدير واستيراد اكسيل',
                   ),
-                  style: btnStyle(color: ColorManager.purple),
                 ),
               ],
             ),
           ),
-          Divider(color: ColorManager.grey3, height: AppSize.s0),
+          const Divider(color: ColorManager.grey3, height: AppSize.s0),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(AppPadding.p12),

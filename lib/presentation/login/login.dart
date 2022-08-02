@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     _login(context);
                   },
-                  child: Text(
+                  child: const Text(
                     "تسجيل الدخول",
                   ),
                 ),
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
           password: _passwordController.text);*/
     } else {
       setState(() {
-        if(email == null || email.isEmpty){
+        if(email.isEmpty){
           _emailError = "أدخل اسم مستخدم صالح.";
           _passwordError ='';
         }else {

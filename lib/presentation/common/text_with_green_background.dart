@@ -10,10 +10,10 @@ class TextWithGreenBack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(text),
       color: ColorManager.green,
       width: double.infinity,
       padding: const EdgeInsets.all(AppPadding.p8),
+      child: Text(text),
     );
   }
 }

@@ -14,9 +14,12 @@ import '../main/add_shipment_view.dart';
 import '../main/add_shipments_preview_view.dart';
 import '../main/control_panel.dart';
 import '../main/import_excel_view.dart';
-import '../main/main_view.dart';
 import '../main/pickup_view.dart';
+import '../main/users/all_admins_view.dart';
+import '../main/users/all_clients_view.dart';
+import '../main/users/all_delivery_view.dart';
 import '../provider/auth_provider.dart';
+import '../register/register_admin_view.dart';
 
 class Routes {
   static const String splashRoute = "/";
@@ -35,126 +38,175 @@ class RouteGenerator {
       GoRoute(
           name: 'control-panel',
           path: '/',
-          pageBuilder: (context, state) =>
-              MaterialPage(key: state.pageKey, child: MoldView(
-                  title: 'لوحة التحكم',
-                  check: 1,
-                  child:  const ControlPanel())),
+          pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: MoldView(
+                  title: 'لوحة التحكم', check: 1, child: const ControlPanel())),
           routes: []),
       GoRoute(
           name: 'pickup',
           path: '/pickup',
-          pageBuilder: (context, state) =>
-              MaterialPage(key: state.pageKey, child: MoldView(
-                  title: 'بيك اب',
+          pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: MoldView(
+                  title: 'بيك اب', check: 2, child: const PickUpScreen())),
+          routes: [
+            GoRoute(
+                name: 'add-pickup',
+                path: 'add-pickup',
+                pageBuilder: (context, state) => MaterialPage(
+                    key: state.pageKey,
+                    child: MoldView(
+                        title: 'أضافة بيك اب',
+                        check: 2,
+                        child: const AddPickUpScreen())),
+                routes: [])
+          ]),
+      GoRoute(
+          name: 'clients',
+          path: '/clients',
+          pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: MoldView(
+                  title: 'العملاء', check: 2, child: ChangeNotifierProvider.value(
+                  value: MiProvider(),
+                  child: const AllClientsScreen()))),
+          routes: [
+            GoRoute(
+                name: 'register-client',
+                path: 'register-client',
+                pageBuilder: (context, state) => MaterialPage(
+                    key: state.pageKey,
+                    child: MoldView(
+                        title: 'تسجيل عميل جديد',
+                        check: 3,
+                        child: ChangeNotifierProvider.value(
+                            value: RegisterClientProvider(),
+                            child: const RegisterClientView()))),
+                routes: [])
+          ]),
+      GoRoute(
+          name: 'drivers',
+          path: '/drivers',
+          pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: MoldView(
+                  title: 'السائقين',
                   check: 2,
-                  child:  const PickUpScreen())),
-          routes: [GoRoute(
-              name: 'add-pickup',
-              path: 'add-pickup',
-              pageBuilder: (context, state) =>
-                  MaterialPage(key: state.pageKey, child: MoldView(
-                      title: 'أضافة بيك اب',
-                      check: 2,
-                      child:  const AddPickUpScreen())),
-              routes: [])]),
-
+                  child: ChangeNotifierProvider.value(
+                      value: MiProvider(),
+                      child: const AllDeliveryScreen()))),
+          routes: [
+            GoRoute(
+                name: 'register-delivery',
+                path: 'register-delivery',
+                pageBuilder: (context, state) => MaterialPage(
+                    key: state.pageKey,
+                    child: MoldView(
+                        title: 'تسجيل سائق جديد',
+                        check: 3,
+                        child: ChangeNotifierProvider.value(
+                            value: RegisterDeliveryProvider(),
+                            child: const RegisterDeliveryView()))),
+                routes: [])
+          ]),
       GoRoute(
-          name: 'register-client',
-          path: '/register-client',
-          pageBuilder: (context, state) =>
-              MaterialPage(key: state.pageKey, child: MoldView(
-                  title: 'تسجيل عميل جديد',
-                  check: 3,
-                  child:   ChangeNotifierProvider.value(
-                      value: RegisterClientProvider(), child: const RegisterClientView()))),
-          routes: []),
-
-      GoRoute(
-          name: 'register-delivery',
-          path: '/register-delivery',
-          pageBuilder: (context, state) =>
-              MaterialPage(key: state.pageKey, child: MoldView(
-                  title: 'تسجيل سائق جديد',
-                  check: 3,
-                  child:   ChangeNotifierProvider.value(
-                      value: RegisterDeliveryProvider(), child: const RegisterDeliveryView()))),
-          routes: []),
+          name: 'admins',
+          path: '/admins',
+          pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: MoldView(
+                  title: 'طاقم العمل',
+                  check: 2,
+                  child: const AllAdminsScreen())),
+          routes: [
+            GoRoute(
+                name: 'register-admin',
+                path: 'register-admin',
+                pageBuilder: (context, state) => MaterialPage(
+                    key: state.pageKey,
+                    child: MoldView(
+                        title: 'تسجيل ادمن جديد',
+                        check: 3,
+                        child: ChangeNotifierProvider.value(
+                            value: RegisterAdminProvider(),
+                            child: const RegisterAdminView()))),
+                routes: [])
+          ]),
       GoRoute(
           name: 'add-shipments',
           path: '/add-shipments',
-          pageBuilder: (context, state) =>
-              MaterialPage(key: state.pageKey, child: MoldView(
+          pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: MoldView(
                   title: 'اضافة شحنات',
                   check: 3,
-                  child:   const AddShipmentsPreviewScreen())),
+                  child: const AddShipmentsPreviewScreen())),
           routes: [
             GoRoute(
                 name: 'import-excel',
                 path: 'import-excel',
-                pageBuilder: (context, state) =>
-                    MaterialPage(key: state.pageKey, child: MoldView(
+                pageBuilder: (context, state) => MaterialPage(
+                    key: state.pageKey,
+                    child: MoldView(
                         title: 'تصدير شيت اكسل',
                         check: 3,
-                        child:   ChangeNotifierProvider.value(
+                        child: ChangeNotifierProvider.value(
                             value: MiProvider(), child: ImportExcelScreen()))),
                 routes: []),
-
             GoRoute(
                 name: 'new-shipment',
                 path: 'new-shipment',
-                pageBuilder: (context, state) =>
-                    MaterialPage(key: state.pageKey, child: MoldView(
+                pageBuilder: (context, state) => MaterialPage(
+                    key: state.pageKey,
+                    child: MoldView(
                         title: 'اضافة شحنات',
                         check: 3,
-                        child:   AddNewShipmentScreen())),
+                        child: AddNewShipmentScreen())),
                 routes: []),
-
           ]),
-
       GoRoute(
           name: 'all-cities',
           path: '/all-cities',
-          pageBuilder: (context, state) =>
-              MaterialPage(key: state.pageKey, child: MoldView(
-                  title: 'المدن',
-                  check: 3,
-                  child:   const CityScreen())),
+          pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: MoldView(
+                  title: 'المدن', check: 3, child: const CityScreen())),
           routes: [
             GoRoute(
                 name: 'add-city',
                 path: 'add-city',
-                pageBuilder: (context, state) =>
-                    MaterialPage(key: state.pageKey, child: MoldView(
+                pageBuilder: (context, state) => MaterialPage(
+                    key: state.pageKey,
+                    child: MoldView(
                         title: 'إضافة مدينة',
                         check: 3,
-                        child:   ChangeNotifierProvider.value(
-                            value: MiProvider(), child: const AddCityScreen()))),
+                        child: ChangeNotifierProvider.value(
+                            value: MiProvider(),
+                            child: const AddCityScreen()))),
                 routes: []),
-
             GoRoute(
                 name: 'all-areas',
                 path: 'all-areas',
-                pageBuilder: (context, state) =>
-                    MaterialPage(key: state.pageKey, child: MoldView(
-                        title: 'المناطق',
-                        check: 3,
-                        child:   const AreaScreen())),
+                pageBuilder: (context, state) => MaterialPage(
+                    key: state.pageKey,
+                    child: MoldView(
+                        title: 'المناطق', check: 3, child: const AreaScreen())),
                 routes: [
                   GoRoute(
                       name: 'add-area',
                       path: 'add-area',
-                      pageBuilder: (context, state) =>
-                          MaterialPage(key: state.pageKey, child: MoldView(
+                      pageBuilder: (context, state) => MaterialPage(
+                          key: state.pageKey,
+                          child: MoldView(
                               title: 'إضافة منطقة',
                               check: 3,
-                              child:   ChangeNotifierProvider.value(
-                                  value: MiProvider(), child: const AddAreaScreen()))),
+                              child: ChangeNotifierProvider.value(
+                                  value: MiProvider(),
+                                  child: const AddAreaScreen()))),
                       routes: []),
                 ]),
-
           ]),
-
     ],
     errorPageBuilder: (context, state) => MaterialPage(
       key: state.pageKey,
@@ -162,8 +214,6 @@ class RouteGenerator {
     ),
   );
 }
-
-
 
 class E404 extends StatelessWidget {
   const E404({Key? key}) : super(key: key);

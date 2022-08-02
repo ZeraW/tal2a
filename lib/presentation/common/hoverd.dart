@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import '../resources/color_manager.dart';
 
@@ -10,7 +12,7 @@ class HoveredText extends StatefulWidget {
   final MouseCursor? cursor;
   final Color textColor, hoverColor;
 
-  HoveredText(this.text,
+  const HoveredText(this.text,
       {this.maxLines = 1,
       this.textAlign,
       this.style,
@@ -68,7 +70,7 @@ class HoveredIcon extends StatefulWidget {
   final MouseCursor? cursor;
   final Color iconColor, hoverColor;
 
-  HoveredIcon(this.icon,
+  const HoveredIcon(this.icon,
       {this.size,
       this.iconColor = ColorManager.black,
       this.hoverColor = ColorManager.primary,
@@ -121,7 +123,7 @@ class HoveredTextButton extends StatefulWidget {
   final TextStyle? style;
   final MouseCursor? cursor;
 
-  HoveredTextButton(this.text,
+  const HoveredTextButton(this.text,
       {this.maxLines = 1,
       this.height,
       this.width,
@@ -234,7 +236,7 @@ class HoveredWithBorder extends StatefulWidget {
   final Widget child;
   final Color normalColor, hoverColor;
 
-  HoveredWithBorder(
+  const HoveredWithBorder(
       {required this.onTap,
       this.hoverColor = ColorManager.primary,
       this.normalColor = Colors.transparent,

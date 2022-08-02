@@ -3,10 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tal2a/presentation/resources/color_manager.dart';
 import 'package:tal2a/presentation/resources/values_manager.dart';
 
-import '../../common/cards.dart';
-
-class CityScreen extends StatelessWidget {
-  const CityScreen({Key? key}) : super(key: key);
+class AllDeliveryScreen extends StatelessWidget {
+  const AllDeliveryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +18,23 @@ class CityScreen extends StatelessWidget {
               padding: const EdgeInsets.all(AppPadding.p12),
               child: ElevatedButton(
                   onPressed: () {
-                    context.goNamed('add-city');
-                  },
-                  child: const Text('إضافة مدينة')),
+                    context.goNamed('register-delivery');
+
+                  }, child: const Text('تسجيل سائق')),
             ),
             const Divider(color: ColorManager.grey3, height: AppSize.s0),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(AppPadding.p12),
-                child: Wrap(
-                  children: [
-                    CityCard(
-                        onTap: () {},
-                        onEdit: () {},
-                        onDelete: () {},
-                        title: 'الجيزة')
+                child: Column(
+                  children: const [
+                    TextField(
+                      maxLines: 1,
+                      textAlign: TextAlign.start,
+                      decoration: InputDecoration(
+                        hintText: 'ابحث هنا...',
+                      ),
+                    ),
                   ],
                 ),
               ),

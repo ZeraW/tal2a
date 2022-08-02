@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tal2a/presentation/common/mold/main_mold.dart';
 import 'package:tal2a/presentation/resources/assets_manager.dart';
 import 'package:tal2a/presentation/resources/color_manager.dart';
 import 'package:tal2a/presentation/resources/values_manager.dart';
@@ -45,7 +44,7 @@ class ControlPanel extends StatelessWidget {
                           )),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(

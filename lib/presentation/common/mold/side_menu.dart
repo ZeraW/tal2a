@@ -29,17 +29,17 @@ class SideMenu extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            const DrawerCatItem(title: 'المستخدمين'),
-
-
-
-            DrawerListTile(
-              title: "لوحة التحكم",
-              check: check == 1,
-              press: () {
-                context.goNamed('control-panel');
-              },
-            ),
+            const DrawerCatItem(title: 'المستخدمين', itemList: [
+              SubCatModel(title: 'ادمن', location: 'admins'),
+              SubCatModel(title: 'عميل', location: 'clients'),
+              SubCatModel(title: 'سائق', location: 'drivers')
+            ],),
+            DrawerCatItem(
+                title: 'لوحة التحكم',
+                selected: check == 1,
+                onTap: () {
+                  context.goNamed('control-panel');
+                }),
             DrawerListTile(
               title: "بيك اب",
               check: check == 2,

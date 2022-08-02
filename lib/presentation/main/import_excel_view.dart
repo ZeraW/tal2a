@@ -1,15 +1,14 @@
+// ignore_for_file: prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
-import 'package:tal2a/presentation/common/mold/main_mold.dart';
 import 'package:tal2a/presentation/resources/color_manager.dart';
 import 'package:tal2a/presentation/resources/responsive.dart';
 import 'package:tal2a/presentation/resources/values_manager.dart';
-import 'dart:ui' as ui;
-
 import '../common/dropdown.dart';
-import '../common/text_field.dart';
+import '../models/models.dart';
 import '../models/pluto_model.dart';
 import '../resources/styles_manager.dart';
 
@@ -54,15 +53,15 @@ class _ImportExcelScreenState extends State<ImportExcelScreen> {
                   onPressed: () {
                     provider.update();
                   },
+                  style: btnStyle(color: ColorManager.purple),
                   child: const Text(
                     'تصدير قالب اكسيل',
                   ),
-                  style: btnStyle(color: ColorManager.purple),
                 ),
               ],
             ),
           ),
-          Divider(color: ColorManager.grey3, height: AppSize.s0),
+          const Divider(color: ColorManager.grey3, height: AppSize.s0),
           Expanded(
               child: Container(
             width: double.infinity,
@@ -187,7 +186,7 @@ class _ImportExcelScreenState extends State<ImportExcelScreen> {
 
                           ),
                           createFooter: (stateManager) {
-                            stateManager.setPageSize(6,
+                            stateManager.setPageSize(10,
                                 notify: true); // Can be omitted. (Default 40)
                             return PlutoPagination(stateManager);
                           },
@@ -208,6 +207,14 @@ class _ImportExcelScreenState extends State<ImportExcelScreen> {
 }
 
 class MiProvider extends ChangeNotifier {
+
+
+
+
+  List<ClientModel> mClientList = List.generate(
+    4,
+        (index) => ClientModel(id: '$index',phone: '01000',name: 'name$index',email: 'email',address: 'bl7',areaId: 'Giza',cityId: 'Cairo',companyName: 'company',phone2: '012222',userType: 'client',password: '',billingAddress: '',billingAreaId: '',billingCityId: ''),
+  );
   List<CustomModels> mList2 = [
     CustomModels(name: 'الاسم', area: 'المنطقة', city: 'المدينة'),
     CustomModels(name: '2', area: '2', city: '2'),
@@ -220,6 +227,9 @@ class MiProvider extends ChangeNotifier {
 
   List<PlutoRow> getRow() {
     return CustomModels().getRows(mList);
+  }
+  List<PlutoRow> getRow2() {
+    return ClientModel().getRows(mClientList);
   }
 
   void update() {

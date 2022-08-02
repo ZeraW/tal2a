@@ -8,14 +8,14 @@ import '../resources/styles_manager.dart';
 
 
 PlutoColumn customPlutoColumn(
-    {required String title, required String field, double? width}) {
+    {required String title, required String field,  PlutoColumnRenderer? renderer, double? width}) {
   return PlutoColumn(
       title: title,
       field: field,
       textAlign: PlutoColumnTextAlign.center,
       titleTextAlign: PlutoColumnTextAlign.center,
       width: width ?? 0,
-      renderer: (c) {
+      renderer: renderer??(c) {
         return Align(
           alignment: Alignment.center,
           child: Text(

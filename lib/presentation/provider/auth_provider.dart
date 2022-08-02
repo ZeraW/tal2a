@@ -7,13 +7,13 @@ class LoginProvider extends ChangeNotifier {
   bool showError = false;
 
   void validate() {
-    String _email = email.text;
-    String _password = password.text;
+    String email = this.email.text;
+    String password = this.password.text;
 
-    if (_email.isEmpty) {
+    if (email.isEmpty) {
       showError = true;
       notifyListeners();
-    } else if (_password.isEmpty) {
+    } else if (password.isEmpty) {
       showError = true;
       notifyListeners();
     } else {
@@ -29,6 +29,22 @@ class ForgetPasswordProvider extends ChangeNotifier {
 
   void validate() {
     //  String _email = email.text;
+    final form = formKey.currentState;
+    if (form!.validate()) {
+    } else {}
+  }
+}
+class RegisterAdminProvider extends ChangeNotifier {
+  TextEditingController
+      name = TextEditingController(),
+      password = TextEditingController(),
+      confirmPassword = TextEditingController(),
+      phoneNumber = TextEditingController(),
+      email = TextEditingController();
+
+  final GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+
+  void validate() {
     final form = formKey.currentState;
     if (form!.validate()) {
     } else {}

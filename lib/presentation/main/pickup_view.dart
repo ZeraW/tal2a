@@ -22,7 +22,7 @@ class PickUpScreen extends StatelessWidget {
 
                   }, child: const Text('إضافة بيك اب')),
             ),
-            Divider(color: ColorManager.grey3, height: AppSize.s0),
+            const Divider(color: ColorManager.grey3, height: AppSize.s0),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(AppPadding.p12),
