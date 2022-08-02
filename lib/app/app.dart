@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: getApplicationTheme(),
+        routeInformationProvider: RouteGenerator.routes.routeInformationProvider,
         routeInformationParser: RouteGenerator.routes.routeInformationParser,
         routerDelegate: RouteGenerator.routes.routerDelegate,
         localizationsDelegates: context.localizationDelegates,

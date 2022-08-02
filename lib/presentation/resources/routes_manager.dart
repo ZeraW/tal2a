@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:tal2a/presentation/main/area/add_area_view.dart';
+import 'package:tal2a/presentation/main/area/area_view.dart';
+import 'package:tal2a/presentation/main/city/add_city_view.dart';
+import 'package:tal2a/presentation/main/city/city_view.dart';
+import 'package:tal2a/presentation/register/register_client_view.dart';
+import 'package:tal2a/presentation/register/register_delivery_view.dart';
 
+import '../common/mold/main_mold.dart';
+import '../main/add_pickup_view.dart';
+import '../main/add_shipment_view.dart';
+import '../main/add_shipments_preview_view.dart';
+import '../main/control_panel.dart';
+import '../main/import_excel_view.dart';
 import '../main/main_view.dart';
+import '../main/pickup_view.dart';
+import '../provider/auth_provider.dart';
 
 class Routes {
   static const String splashRoute = "/";
@@ -18,11 +33,127 @@ class RouteGenerator {
     urlPathStrategy: UrlPathStrategy.path,
     routes: [
       GoRoute(
-          name: 'main',
+          name: 'control-panel',
           path: '/',
           pageBuilder: (context, state) =>
-              MaterialPage(key: state.pageKey, child: const MainView()),
+              MaterialPage(key: state.pageKey, child: MoldView(
+                  title: 'لوحة التحكم',
+                  check: 1,
+                  child:  const ControlPanel())),
           routes: []),
+      GoRoute(
+          name: 'pickup',
+          path: '/pickup',
+          pageBuilder: (context, state) =>
+              MaterialPage(key: state.pageKey, child: MoldView(
+                  title: 'بيك اب',
+                  check: 2,
+                  child:  const PickUpScreen())),
+          routes: [GoRoute(
+              name: 'add-pickup',
+              path: 'add-pickup',
+              pageBuilder: (context, state) =>
+                  MaterialPage(key: state.pageKey, child: MoldView(
+                      title: 'أضافة بيك اب',
+                      check: 2,
+                      child:  const AddPickUpScreen())),
+              routes: [])]),
+
+      GoRoute(
+          name: 'register-client',
+          path: '/register-client',
+          pageBuilder: (context, state) =>
+              MaterialPage(key: state.pageKey, child: MoldView(
+                  title: 'تسجيل عميل جديد',
+                  check: 3,
+                  child:   ChangeNotifierProvider.value(
+                      value: RegisterClientProvider(), child: const RegisterClientView()))),
+          routes: []),
+
+      GoRoute(
+          name: 'register-delivery',
+          path: '/register-delivery',
+          pageBuilder: (context, state) =>
+              MaterialPage(key: state.pageKey, child: MoldView(
+                  title: 'تسجيل سائق جديد',
+                  check: 3,
+                  child:   ChangeNotifierProvider.value(
+                      value: RegisterDeliveryProvider(), child: const RegisterDeliveryView()))),
+          routes: []),
+      GoRoute(
+          name: 'add-shipments',
+          path: '/add-shipments',
+          pageBuilder: (context, state) =>
+              MaterialPage(key: state.pageKey, child: MoldView(
+                  title: 'اضافة شحنات',
+                  check: 3,
+                  child:   const AddShipmentsPreviewScreen())),
+          routes: [
+            GoRoute(
+                name: 'import-excel',
+                path: 'import-excel',
+                pageBuilder: (context, state) =>
+                    MaterialPage(key: state.pageKey, child: MoldView(
+                        title: 'تصدير شيت اكسل',
+                        check: 3,
+                        child:   ChangeNotifierProvider.value(
+                            value: MiProvider(), child: ImportExcelScreen()))),
+                routes: []),
+
+            GoRoute(
+                name: 'new-shipment',
+                path: 'new-shipment',
+                pageBuilder: (context, state) =>
+                    MaterialPage(key: state.pageKey, child: MoldView(
+                        title: 'اضافة شحنات',
+                        check: 3,
+                        child:   AddNewShipmentScreen())),
+                routes: []),
+
+          ]),
+
+      GoRoute(
+          name: 'all-cities',
+          path: '/all-cities',
+          pageBuilder: (context, state) =>
+              MaterialPage(key: state.pageKey, child: MoldView(
+                  title: 'المدن',
+                  check: 3,
+                  child:   const CityScreen())),
+          routes: [
+            GoRoute(
+                name: 'add-city',
+                path: 'add-city',
+                pageBuilder: (context, state) =>
+                    MaterialPage(key: state.pageKey, child: MoldView(
+                        title: 'إضافة مدينة',
+                        check: 3,
+                        child:   ChangeNotifierProvider.value(
+                            value: MiProvider(), child: const AddCityScreen()))),
+                routes: []),
+
+            GoRoute(
+                name: 'all-areas',
+                path: 'all-areas',
+                pageBuilder: (context, state) =>
+                    MaterialPage(key: state.pageKey, child: MoldView(
+                        title: 'المناطق',
+                        check: 3,
+                        child:   const AreaScreen())),
+                routes: [
+                  GoRoute(
+                      name: 'add-area',
+                      path: 'add-area',
+                      pageBuilder: (context, state) =>
+                          MaterialPage(key: state.pageKey, child: MoldView(
+                              title: 'إضافة منطقة',
+                              check: 3,
+                              child:   ChangeNotifierProvider.value(
+                                  value: MiProvider(), child: const AddAreaScreen()))),
+                      routes: []),
+                ]),
+
+          ]),
 
     ],
     errorPageBuilder: (context, state) => MaterialPage(

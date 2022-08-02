@@ -34,8 +34,7 @@ TextStyle getLightStyle(
 
 // bold style
 
-TextStyle getBoldStyle(
-    {double fontSize = FontSize.s14, required Color color}) {
+TextStyle getBoldStyle({double fontSize = FontSize.s14, required Color color}) {
   return _getTextStyle(fontSize, FontWeightManager.bold, color);
 }
 
@@ -46,11 +45,16 @@ TextStyle getSemiBoldStyle(
   return _getTextStyle(fontSize, FontWeightManager.semiBold, color);
 }
 
-ButtonStyle correctStyle(){
-  return ButtonStyle(backgroundColor: ColorManager.materialColor(ColorManager.green));
+ButtonStyle correctStyle() {
+  return ButtonStyle(
+      backgroundColor: ColorManager.materialColor(ColorManager.green));
 }
 
-ButtonStyle wrongStyle(){
-  return ButtonStyle(backgroundColor: ColorManager.materialColor(ColorManager.error));
+ButtonStyle wrongStyle() {
+  return ButtonStyle(
+      backgroundColor: ColorManager.materialColor(ColorManager.error));
 }
 
+ButtonStyle btnStyle({Color? color = Colors.indigo, EdgeInsets? padding}) {
+  return ButtonStyle(padding: padding!=null ?MaterialStateProperty.all<EdgeInsets>(padding):null,backgroundColor: ColorManager.materialColor(color));
+}

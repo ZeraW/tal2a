@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tal2a/presentation/resources/color_manager.dart';
 
 import '../../resources/values_manager.dart';
 
 class SideMenu extends StatelessWidget {
- final String? title;
-  const SideMenu({this.title,Key? key}) : super(key: key);
+  final String? title;
+  final int? check;
 
+  const SideMenu({this.title, this.check, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,52 +22,53 @@ class SideMenu extends StatelessWidget {
             ),
             Image.asset(
               "assets/images/splash_logo.png",
-              width: 135,
-              height: 135,
+              width: 90,
+              height: 90,
             ),
             const SizedBox(
               height: 25,
             ),
             DrawerListTile(
               title: "لوحة التحكم",
-              check:title,
+              check: check == 1,
               press: () {
-
+                context.goNamed('control-panel');
               },
             ),
             DrawerListTile(
               title: "بيك اب",
-              check:title,
+              check: check == 2,
               press: () {
-
+                context.goNamed('pickup');
               },
             ),
             DrawerListTile(
               title: "اضافة شحنات",
-              check:title,
+              check: check == 3,
               press: () {
-
+                context.goNamed('add-shipments');
               },
             ),
             DrawerListTile(
               title: "شحناتي",
-              check:title,
-              press: () {
-
-              },
+              check: check == 4,
+              press: () {},
             ),
             DrawerListTile(
               title: "سجلات السداد",
-              check:title,
-              press: () {
-
-              },
+              check: check == 5,
+              press: () {},
             ),
             DrawerListTile(
               title: "التقارير",
-              check:title,
+              check: check == 6,
+              press: () {},
+            ),
+            DrawerListTile(
+              title: "تسجيل عميل جديد",
+              check: check == 7,
               press: () {
-
+                context.goNamed('register-client');
               },
             ),
           ],
@@ -80,12 +83,12 @@ class DrawerListTile extends StatelessWidget {
     Key? key,
     // For selecting those three line once press "Command+D"
     required this.title,
-    this.check,
+    this.check = false,
     required this.press,
   }) : super(key: key);
 
   final String title;
-  final String? check;
+  final bool? check;
   final VoidCallback press;
 
   @override
@@ -93,14 +96,16 @@ class DrawerListTile extends StatelessWidget {
     return ListTile(
       onTap: press,
       horizontalTitleGap: 0.0,
-      leading:  Icon(
+      leading: Icon(
         Icons.view_headline_rounded,
-        color:check == title ? ColorManager.white:ColorManager.offWhite,
+        color: check! ? ColorManager.white : ColorManager.offWhite,
         size: AppSize.s18,
       ),
       title: Text(
         title,
-        style: check == title ? Theme.of(context).textTheme.bodyMedium : Theme.of(context).textTheme.bodySmall,
+        style: check!
+            ? Theme.of(context).textTheme.bodyMedium
+            : Theme.of(context).textTheme.bodySmall,
       ),
     );
   }
