@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tal2a/presentation/resources/color_manager.dart';
 
 import '../../resources/values_manager.dart';
+import 'row_cat_item.dart';
 
 class SideMenu extends StatelessWidget {
   final String? title;
@@ -28,6 +29,10 @@ class SideMenu extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
+            const DrawerCatItem(title: 'المستخدمين'),
+
+
+
             DrawerListTile(
               title: "لوحة التحكم",
               check: check == 1,
