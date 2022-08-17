@@ -13,8 +13,11 @@ class AllClientsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // final provider = context.read<MiProvider>();
-
+    AllClients? clients = context.watch<AllClients?>();
+    List<ClientModel>? mList = clients?.allClients?.entries.map((entry) {
+      ClientModel model = entry.value;
+      return model;
+    }).toList();
     return Padding(
       padding: const EdgeInsets.all(AppPadding.p4),
       child: Card(
@@ -44,42 +47,37 @@ class AllClientsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSize.s12,),
                     Expanded(
-                      child: Consumer<MiProvider>(
-                        builder: (context, xPro, child) {
-                          print('xxxxxxxxxxxxxxxx${xPro.mClientList[0].phone}');
-                          return PlutoGrid(
-                              key: UniqueKey(),
-                              columns: ClientModel().getColumns(),
-                              rows: xPro.getRow2(),
-                              mode: PlutoGridMode.select,
-                              configuration: PlutoGridConfiguration(
+                      child: mList!=null ?PlutoGrid(
+                          key: UniqueKey(),
+                          columns: ClientModel().getColumns(context),
+                          rows: ClientModel().getRows(mList),
+                          mode: PlutoGridMode.select,
+                          configuration: PlutoGridConfiguration(
 
-                                style: PlutoGridStyleConfig(
-                                  gridBorderColor: Colors.black54,
-                                  columnFilterHeight: 1,
-                                  activatedBorderColor: Colors.indigo,
-                                  iconColor: Colors.black54,
-                                  disabledIconColor: Colors.black12,
-                                  gridBorderRadius: BorderRadius.circular(5)
-                                      .resolve(TextDirection.rtl),
-                                  columnHeight: 40,
-                                  activatedColor: Colors.black12,
-                                  rowHeight: 40,
-                                  borderColor: Colors.black12,
-                                ),
+                            style: PlutoGridStyleConfig(
+                              gridBorderColor: Colors.black54,
+                              columnFilterHeight: 1,
+                              activatedBorderColor: Colors.indigo,
+                              iconColor: Colors.black54,
+                              disabledIconColor: Colors.black12,
+                              gridBorderRadius: BorderRadius.circular(5)
+                                  .resolve(TextDirection.rtl),
+                              columnHeight: 40,
+                              activatedColor: Colors.black12,
+                              rowHeight: 40,
+                              borderColor: Colors.black12,
+                            ),
 
-                              ),
-                              createFooter: (stateManager) {
-                                stateManager.setPageSize(6,
-                                    notify: true); // Can be omitted. (Default 40)
-                                return PlutoPagination(stateManager);
-                              },
-                              onSelected: (x) {
-                                print('onSelected');
-                                print(x.cell?.row.cells.values.first.value);
-                              });
-                        },
-                      ),
+                          ),
+                          createFooter: (stateManager) {
+                            stateManager.setPageSize(10,
+                                notify: true); // Can be omitted. (Default 40)
+                            return PlutoPagination(stateManager);
+                          },
+                          onSelected: (x) {
+                            print('onSelected');
+                            print(x.cell?.row.cells.values.first.value);
+                          }):const SizedBox(),
                     ),
                   ],
                 ),

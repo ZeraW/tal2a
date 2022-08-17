@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
@@ -8,6 +9,8 @@ import 'package:tal2a/presentation/resources/color_manager.dart';
 import 'package:tal2a/presentation/resources/responsive.dart';
 import 'package:tal2a/presentation/resources/values_manager.dart';
 import '../common/dropdown.dart';
+import '../common/excel_to_json.dart';
+import '../models/from_excel.dart';
 import '../models/models.dart';
 import '../models/pluto_model.dart';
 import '../resources/styles_manager.dart';
@@ -21,7 +24,7 @@ class ImportExcelScreen extends StatefulWidget {
 
 class _ImportExcelScreenState extends State<ImportExcelScreen> {
   late PlutoGridStateManager stateManager;
-
+  List<OrderFromExcel> list =[];
   @override
   void initState() {
     super.initState();
@@ -29,7 +32,6 @@ class _ImportExcelScreenState extends State<ImportExcelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<MiProvider>();
 
     //print('${modelList.length}');
     return Card(
@@ -51,7 +53,6 @@ class _ImportExcelScreenState extends State<ImportExcelScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    provider.update();
                   },
                   style: btnStyle(color: ColorManager.purple),
                   child: const Text(
@@ -62,178 +63,103 @@ class _ImportExcelScreenState extends State<ImportExcelScreen> {
             ),
           ),
           const Divider(color: ColorManager.grey3, height: AppSize.s0),
-          Expanded(
-              child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(AppPadding.p12),
-            alignment: AlignmentDirectional.topStart,
-            child: SingleChildScrollView(
-                child: Wrap(
-              /*crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,*/
-              children: [
-                IntrinsicWidth(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSize.s8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('اختر ملف',
-                            style: getSemiBoldStyle(color: ColorManager.grey1)),
-                        const SizedBox(
-                          height: AppSize.s6,
-                        ),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                                style: btnStyle(color: ColorManager.grey),
-                                onPressed: () {},
-                                child: const Text('اضغط لأختيار ملف')),
-                            const SizedBox(
-                              width: AppSize.s12,
-                            ),
-                            SizedBox(
-                              width: 140,
-                              child: Text('اسم الملف هيظهر هنا',
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: getRegularStyle(
-                                      color: ColorManager.grey1)),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Column(
+
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(AppSize.s8),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width:
-                          !Responsive.isMobile(context) ? 600 : double.infinity,
-                      child: Row(
-                        children: [
-                          const Expanded(
-                              child: DropDownWidget(
-                                  title: 'استلام الشحنات بفرع',
-                                  hint: 'اختر الفرع',
-                                  list: [
-                                '1',
-                                '2',
-                              ])),
-                          const Expanded(
-                              child: DropDownWidget(
-                                  title: 'الشحن من مدينة',
-                                  hint: 'اختر المدينة',
-                                  list: [
-                                '1',
-                                '2',
-                              ])),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: AppSize.s22),
-                              child: ElevatedButton(
-                                  style: btnStyle(
-                                      color: ColorManager.black,
-                                      padding:
-                                          const EdgeInsets.all(AppPadding.p18)),
-                                  onPressed: () {},
-                                  child: const Text('عرض البيانات')),
-                            ),
-                          ),
-                        ],
-                      ),
+                    Text('اختر ملف',
+                        style: getSemiBoldStyle(color: ColorManager.grey1)),
+                    const SizedBox(
+                      height: AppSize.s6,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                          style: btnStyle(
-                              color: ColorManager.lightPrimary,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: AppPadding.p18, horizontal: 80)),
-                          onPressed: () {},
-                          child: const Text('حفظ الشحنات')),
-                    ),
+                    ElevatedButton(
+                        style: btnStyle(color: ColorManager.grey),
+                        onPressed: () async{
+
+                          MyExcelToJson().convert().then((onValue) {
+
+                            list= List<OrderFromExcel>.from(json.decode(onValue!).map((x) => OrderFromExcel.fromJson(x)));
+                            setState(() {
+
+                            });
+                          });
+                        },
+                        child: const Text('اضغط لأختيار ملف')),
+
                   ],
                 ),
-                Consumer<MiProvider>(
-                  builder: (context, xPro, child) {
-                    print(provider.mList.length);
-                    return SizedBox(
-                      height: 340,
-                      child: PlutoGrid(
-                          key: UniqueKey(),
-                          columns: CustomModels().getColumns(),
-                          rows: xPro.getRow(),
-                          mode: PlutoGridMode.select,
-                          configuration: PlutoGridConfiguration(
+              ),
+              const IntrinsicWidth(
+                  child: DropDownWidget(
+                      title: 'العميل',
+                      hint: 'اختر عميل',
+                      list: [
+                        'محسن السيد احمد',
+                        '2',
+                      ])),
+              const SizedBox(width: 8,),
 
-                            style: PlutoGridStyleConfig(
-                              gridBorderColor: Colors.black54,
-                              columnFilterHeight: 1,
-                              activatedBorderColor: Colors.indigo,
-                              iconColor: Colors.black54,
-                              disabledIconColor: Colors.black12,
-                              gridBorderRadius: BorderRadius.circular(5)
-                                  .resolve(TextDirection.rtl),
-                              columnHeight: 40,
-                              activatedColor: Colors.black12,
-                              rowHeight: 40,
-                              borderColor: Colors.black12,
-                            ),
+              Padding(
+                padding: const EdgeInsets.only(top: AppSize.s22),
+                child: ElevatedButton(
+                    style: btnStyle(
+                        color: ColorManager.lightPrimary,
+                        padding:
+                        const EdgeInsets.symmetric(vertical: AppPadding.p18,horizontal: AppPadding.p12)),
+                    onPressed: () {},
+                    child: const Text('حفظ الشحنات')),
+              ),
+            ],
+          ),
 
-                          ),
-                          createFooter: (stateManager) {
-                            stateManager.setPageSize(10,
-                                notify: true); // Can be omitted. (Default 40)
-                            return PlutoPagination(stateManager);
-                          },
-                          onSelected: (x) {
-                            print('onSelected');
-                            print(x.cell?.row.cells.values.first.value);
-                          }),
-                    );
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: PlutoGrid(
+                  key: UniqueKey(),
+                  columns: OrderFromExcel().getColumns(context),
+                  rows: OrderFromExcel().getRows(list),
+                  mode: PlutoGridMode.select,
+                  configuration: PlutoGridConfiguration(
+
+                    style: PlutoGridStyleConfig(
+                      gridBorderColor: Colors.black54,
+                      columnFilterHeight: 1,
+                      activatedBorderColor: Colors.indigo,
+                      iconColor: Colors.black54,
+                      disabledIconColor: Colors.black12,
+                      gridBorderRadius: BorderRadius.circular(5)
+                          .resolve(TextDirection.rtl),
+                      columnHeight: 40,
+                      activatedColor: Colors.black12,
+                      rowHeight: 40,
+                      borderColor: Colors.black12,
+                    ),
+
+                  ),
+                  createFooter: (stateManager) {
+                    stateManager.setPageSize(10,
+                        notify: true); // Can be omitted. (Default 40)
+                    return PlutoPagination(stateManager);
                   },
-                ),
-              ],
-            )),
-          )),
+                  onSelected: (x) {
+                    print('onSelected');
+                    print(x.cell?.row.cells.values.first.value);
+                  }),
+            ),
+          ),
         ],
       ),
     );
   }
+
+
+
 }
 
-class MiProvider extends ChangeNotifier {
 
-
-
-
-  List<ClientModel> mClientList = List.generate(
-    4,
-        (index) => ClientModel(id: '$index',phone: '01000',name: 'name$index',email: 'email',address: 'bl7',areaId: 'Giza',cityId: 'Cairo',companyName: 'company',phone2: '012222',userType: 'client',password: '',billingAddress: '',billingAreaId: '',billingCityId: ''),
-  );
-  List<CustomModels> mList2 = [
-    CustomModels(name: 'الاسم', area: 'المنطقة', city: 'المدينة'),
-    CustomModels(name: '2', area: '2', city: '2'),
-    CustomModels(name: '3', area: '3', city: '3')
-  ];
-  List<CustomModels> mList = List.generate(
-    4,
-    (index) => CustomModels(name: 'الاسم', area: 'المنطقة', city: 'المدينة'),
-  );
-
-  List<PlutoRow> getRow() {
-    return CustomModels().getRows(mList);
-  }
-  List<PlutoRow> getRow2() {
-    return ClientModel().getRows(mClientList);
-  }
-
-  void update() {
-    mList.add(CustomModels(name: 'x', area: 'x', city: 'x'));
-    notifyListeners();
-  }
-}

@@ -76,6 +76,12 @@ ThemeData getApplicationTheme() {
                 BorderSide(color: ColorManager.grey3, width: AppSize.s1_5),
             borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
 
+        // disabled border style
+        disabledBorder: const OutlineInputBorder(
+            borderSide:
+            BorderSide(color: ColorManager.grey3, width: AppSize.s1_5),
+            borderRadius: BorderRadius.all(Radius.circular(AppSize.s8))),
+
         // focused border style
         focusedBorder: const OutlineInputBorder(
             borderSide:

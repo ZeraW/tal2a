@@ -175,9 +175,9 @@ class DrawerSubSubCatItem extends StatelessWidget {
         context.goNamed(data.location);
       },
       child: Container(
-        child: Text(data.title,style:  TextStyle(color: ColorManager.white.withOpacity(0.70)),),
         alignment: AlignmentDirectional.centerStart,
         padding: const EdgeInsets.only(top: 8,bottom: 15, left: 8,right: 8),
+        child: Text(data.title,style:  TextStyle(color: ColorManager.white.withOpacity(0.70)),),
       ),
     );
   }

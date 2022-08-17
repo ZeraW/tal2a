@@ -3,7 +3,7 @@ import 'package:tal2a/presentation/resources/color_manager.dart';
 import 'package:tal2a/presentation/resources/styles_manager.dart';
 
 class CityCard extends StatelessWidget {
-  final Function() onTap,onEdit,onDelete;
+  final Function()? onTap,onEdit,onDelete;
   final String title;
   const CityCard({Key? key, required this.onTap, required this.onEdit, required this.onDelete, required this.title}) : super(key: key);
 

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tal2a/presentation/common/text_field.dart';
 import '../common/dropdown.dart';
+import '../models/models.dart';
 import '../provider/auth_provider.dart';
 import '../resources/styles_manager.dart';
 import '../resources/values_manager.dart';
@@ -20,7 +21,20 @@ class RegisterClientView extends StatefulWidget {
 class _RegisterClientViewState extends State<RegisterClientView> {
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<RegisterClientProvider>();
+    final xProvider = context.read<RegisterClientProvider>();
+    Location? location = context.watch<Location?>();
+
+    List<City>? cityList = location?.allCities?.entries.map((entry) {
+      City city = entry.value;
+      return city;
+    }).toList();
+
+
+    List<Area>? areaList = location?.allAreas?.entries.map((entry) {
+      Area area = entry.value;
+      return area;
+    }).toList();
+
 
     return Card(
         child: SingleChildScrollView(
@@ -32,8 +46,7 @@ class _RegisterClientViewState extends State<RegisterClientView> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          provider.validate();
-
+                          xProvider.validate(context);
                         },
                         style: correctStyle(),
                         child: Row(
@@ -69,145 +82,154 @@ class _RegisterClientViewState extends State<RegisterClientView> {
                 ),
                 const Divider(
                     color: Colors.black12, indent: 0, endIndent: 0, height: 0),
+                Consumer<RegisterClientProvider>(
+                  builder: (context, provider, child) {
+                    return FormBuilder(
+                      key: provider.formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: TextFormBuilder(
+                                  controller: provider.code,
+                                  errorText: 'هذا الحقل مطلوب',
+                                  hint: 'كود العميل',
+                                  isRequired: true,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: TextFormBuilder(
+                                  controller: provider.name,
+                                  errorText: "هذا الحقل مطلوب",
+                                  hint: 'اسم العميل',
+                                  isRequired: true,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: TextFormBuilder(
+                                  controller: provider.companyName,
+                                  errorText: 'هذا الحقل مطلوب',
+                                  hint: 'اسم شركة العميل',
+                                  isRequired: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: TextFormBuilder(
+                                  controller: provider.phoneNumber,
+                                  errorText: 'هذا الحقل مطلوب',
+                                  hint: 'رقم الهاتف',
+                                  isRequired: true,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: TextFormBuilder(
+                                  controller: provider.phoneNumber2,
+                                  errorText: 'هذا الحقل مطلوب',
+                                  hint: 'رقم هاتف بديل',
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormBuilder(
+                            controller: provider.addressLine,
+                            errorText: 'هذا الحقل مطلوب',
+                            hint: 'عنوان',
+                            isRequired: true,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  child: cityList != null && areaList != null
+                                      ? DropDownDynamicWidget(
+                                      title: 'المدينة',
+                                      hint: 'اختر مدينة',
+                                      selectedItem: provider.city,
+                                      onChange: (val) {
+                                        provider.updateCity(val, areaList);
+                                      },
+                                      isRequired: true,
+                                      list: cityList)
+                                      : const SizedBox()),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                  child:DropDownDynamicWidget(
+                                      title: 'المنطقة',
+                                      hint: 'اختر منطقة',
+                                      selectedItem: provider.area,
 
-                FormBuilder(
-      key: provider.formKey,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(children: [
-          Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextFormBuilder(
-                      controller: provider.code,
-                      errorText: 'هذا الحقل مطلوب',
-                      hint: 'كود العميل',
-                      isRequired: true,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: TextFormBuilder(
-                      controller: provider.name,
-                      errorText: "هذا الحقل مطلوب",
-                      hint: 'اسم العميل',
-                      isRequired: true,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: TextFormBuilder(
-                      controller: provider.companyName,
-                      errorText: 'هذا الحقل مطلوب',
-                      hint: 'اسم شركة العميل',
-                      isRequired: true,
-                    ),
-                  ),
-                ],
-          ),
-          const SizedBox(
-                height: 10,
-          ),
-          Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextFormBuilder(
-                      controller: provider.phoneNumber,
-                      errorText: 'هذا الحقل مطلوب',
-                      hint: 'رقم الهاتف',
-                      isRequired: true,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: TextFormBuilder(
-                      controller: provider.phoneNumber2,
-                      errorText: 'هذا الحقل مطلوب',
-                      hint: 'رقم هاتف بديل',
-                    ),
-                  ),
-                ],
-          ),
-          const SizedBox(
-                height: 10,
-          ),
-          TextFormBuilder(
-            controller: provider.addressLine,
-            errorText: 'هذا الحقل مطلوب',
-            hint: 'عنوان',
-            isRequired: true,
-          ),
-          const SizedBox(
-                height: 10,
-          ),
-          Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const[
-                  Expanded(child: DropDownWidget(
-                      title: 'المدينة',
-                      hint: 'اختر مدينة',
-                      isRequired: true,
-                      list: [
-                        '1',
-                        '2',
-                      ])),
-                   SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(child: DropDownWidget(
-                      title: 'المنطقة',
-                      hint: 'اختر منطقة',
-                      isRequired: true,
 
-                      list: [
-                        '1',
-                        '2',
-                      ])),
-                ],
-          ),
-          const SizedBox(
-                height: 10,
-          ),
-          Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: TextFormBuilder(
-                      controller: provider.password,
-                      isPassword: true,
-                      errorText: 'هذا الحقل مطلوب',
-                      hint: 'كلمة المرور',
-                      isRequired: true,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-
-                  Expanded(
-                    child: TextFormBuilder(
-                      controller: provider.confirmPassword,
-                      isPassword: true,
-                      errorText: 'هذا الحقل مطلوب',
-                      hint: 'تأكيد كلمة المرور',
-                      isRequired: true,
-                    ),
-                  ),
-                ],
-          ),
-        ]),
-      ),
-    ),
+                                      onChange: (val) {
+                                        provider.updateArea(val);
+                                      },
+                                      isRequired: true,
+                                      list: provider.areaList)),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: TextFormBuilder(
+                                  controller: provider.password,
+                                  isPassword: true,
+                                  errorText: 'هذا الحقل مطلوب',
+                                  hint: 'كلمة المرور',
+                                  isRequired: true,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                child: TextFormBuilder(
+                                  controller: provider.confirmPassword,
+                                  isPassword: true,
+                                  errorText: 'هذا الحقل مطلوب',
+                                  hint: 'تأكيد كلمة المرور',
+                                  isRequired: true,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ]),
+                      ),
+                    );
+                  },
+                ),
               ],
             )));
   }

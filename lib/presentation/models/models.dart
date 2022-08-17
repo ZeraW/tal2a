@@ -1,9 +1,12 @@
 // ignore: depend_on_referenced_packages
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:tal2a/presentation/resources/color_manager.dart';
+import 'package:tal2a/presentation/resources/responsive.dart';
 import 'package:tal2a/presentation/resources/styles_manager.dart';
 
 import '../common/custom_pluto_column.dart';
@@ -22,9 +25,9 @@ class Admin {
 
   Map<String, PlutoCell> _row(Admin model) {
     return {
+      'no': PlutoCell(value: ''),
       'name': PlutoCell(value: '${model.name}'),
       'email': PlutoCell(value: '${model.email}'),
-      'password': PlutoCell(value: '${model.password}'),
       'action': PlutoCell(value: '${model.id}'),
       'final': PlutoCell(value: ''),
     };
@@ -34,15 +37,30 @@ class Admin {
     return mList.map((e) => PlutoRow(cells: _row(e))).toList();
   }
 
-  List<PlutoColumn> getColumns() {
+  List<PlutoColumn> getColumns(BuildContext context) {
     return [
-      customPlutoColumn(title: 'الاسم', field: 'name', width: 100),
-      customPlutoColumn(title: 'الايميل', field: 'email', width: 100),
-      customPlutoColumn(title: 'كلمة المرور', field: 'password', width: 100),
+      customPlutoColumn(
+          title: '#',
+          field: 'no',
+          width: 50,
+          renderer: (c) {
+            return Align(
+              alignment: Alignment.center,
+              child: Text(
+                (c.rowIdx + 1).toString(),
+                maxLines: 2,
+                style: getMediumStyle(color: ColorManager.darkGrey),
+              ),
+            );
+          }),
+      customPlutoColumn(
+          title: 'الاسم', field: 'name', width: Responsive.width(30, context)),
+      customPlutoColumn(
+          title: 'ايميل', field: 'email', width: Responsive.width(30, context)),
       customPlutoColumn(
           title: 'خيارات',
           field: 'action',
-          width: 110,
+          width: Responsive.width(18.3, context),
           renderer: (c) {
             return Align(
               alignment: Alignment.center,
@@ -92,9 +110,9 @@ class ClientModel {
       billingAreaId,
       billingAddress;
 
-  factory ClientModel.fromJson(var json) => _$ClientFromJson(json);
+  factory ClientModel.fromJson(var json) => _$ClientModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ClientToJson(this);
+  Map<String, dynamic> toJson() => _$ClientModelToJson(this);
 
   ClientModel({
     this.id,
@@ -116,10 +134,9 @@ class ClientModel {
   Map<String, PlutoCell> _row(ClientModel model) {
     return {
       'no': PlutoCell(value: ''),
-      'code': PlutoCell(value: '${model.id}'),
-
+      'code': PlutoCell(value: '${model.email}'),
       'name': PlutoCell(value: '${model.name}\n${model.companyName}'),
-      'email': PlutoCell(value: '${model.email}'),
+      'address': PlutoCell(value: '${model.address}'),
       'phone': PlutoCell(value: '${model.phone}\n${model.phone2}'),
       'location': PlutoCell(value: '${model.areaId}\n${model.cityId}'),
       'action': PlutoCell(value: '${model.id}'),
@@ -131,25 +148,52 @@ class ClientModel {
     return mList.map((e) => PlutoRow(cells: _row(e))).toList();
   }
 
-  List<PlutoColumn> getColumns() {
+  List<PlutoColumn> getColumns(BuildContext context) {
     return [
-      customPlutoColumn(title: '#', field: 'no', width: 50,
+      customPlutoColumn(
+          title: '#',
+          field: 'no',
+          width: 50,
           renderer: (c) {
             return Align(
               alignment: Alignment.center,
               child: Text(
-                c.rowIdx.toString(),
+                (c.rowIdx + 1).toString(),
                 maxLines: 2,
                 style: getMediumStyle(color: ColorManager.darkGrey),
               ),
             );
           }),
-      customPlutoColumn(title: 'كود العميل', field: 'code', width: 100),
-      customPlutoColumn(title: 'الاسم/الشركة', field: 'name', width: 220),
-      customPlutoColumn(title: 'الايميل', field: 'email', width: 200),
-      customPlutoColumn(title: 'هاتف', field: 'phone', width: 200),
       customPlutoColumn(
-          title: 'المنطقة/المدينة', field: 'location', width: 130),
+          title: 'كود العميل',
+          field: 'code',
+          width: Responsive.isMobile(context)
+              ? 100
+              : Responsive.width(9.7, context)),
+      customPlutoColumn(
+          title: 'الاسم/الشركة',
+          field: 'name',
+          width: Responsive.isMobile(context)
+              ? 220
+              : Responsive.width(15, context)),
+      customPlutoColumn(
+          title: 'هاتف',
+          field: 'phone',
+          width: Responsive.isMobile(context)
+              ? 200
+              : Responsive.width(14, context)),
+      customPlutoColumn(
+          title: 'العنوان',
+          field: 'address',
+          width: Responsive.isMobile(context)
+              ? 250
+              : Responsive.width(17, context)),
+      customPlutoColumn(
+          title: 'المنطقة/المدينة',
+          field: 'location',
+          width: Responsive.isMobile(context)
+              ? 130
+              : Responsive.width(12, context)),
       customPlutoColumn(
           title: 'خيارات',
           field: 'action',
@@ -219,11 +263,118 @@ class Delivery {
     this.vehicle,
     this.nationalId,
   });
+
+  Map<String, PlutoCell> _row(Delivery model) {
+    return {
+      'no': PlutoCell(value: ''),
+      'code': PlutoCell(value: '${model.email}'),
+      'name': PlutoCell(value: '${model.name}'),
+      'nationalId': PlutoCell(value: '${model.nationalId}'),
+      'vehicle': PlutoCell(value: '${model.vehicle}'),
+      'address': PlutoCell(value: '${model.address}'),
+      'phone': PlutoCell(value: '${model.phone}\n${model.phone2}'),
+      'location': PlutoCell(value: '${model.areaId}\n${model.cityId}'),
+      'action': PlutoCell(value: '${model.id}'),
+      'final': PlutoCell(value: ''),
+    };
+  }
+
+  List<PlutoRow> getRows(List<Delivery> mList) {
+    return mList.map((e) => PlutoRow(cells: _row(e))).toList();
+  }
+
+  List<PlutoColumn> getColumns(BuildContext context) {
+    return [
+      customPlutoColumn(
+          title: '#',
+          field: 'no',
+          width: 50,
+          renderer: (c) {
+            return Align(
+              alignment: Alignment.center,
+              child: Text(
+                (c.rowIdx + 1).toString(),
+                maxLines: 2,
+                style: getMediumStyle(color: ColorManager.darkGrey),
+              ),
+            );
+          }),
+      customPlutoColumn(
+          title: 'كود العميل',
+          field: 'code',
+          width:
+              Responsive.is1080(context) ? Responsive.width(8, context) : 80),
+      customPlutoColumn(
+          title: 'الاسم',
+          field: 'name',
+          width:
+              Responsive.is1080(context) ? Responsive.width(12, context) : 180),
+      customPlutoColumn(
+          title: 'الرقم القومي',
+          field: 'nationalId',
+          width:
+              Responsive.is1080(context) ? Responsive.width(12, context) : 140),
+      customPlutoColumn(
+          title: 'المركبة',
+          field: 'vehicle',
+          width:
+              Responsive.is1080(context) ? Responsive.width(10, context) : 80),
+      customPlutoColumn(
+          title: 'هاتف',
+          field: 'phone',
+          width:
+              Responsive.is1080(context) ? Responsive.width(11, context) : 130),
+      customPlutoColumn(
+          title: 'العنوان',
+          field: 'address',
+          width: Responsive.is1080(context)
+              ? Responsive.width(13.1, context)
+              : 205),
+      customPlutoColumn(
+          title: 'المنطقة/المدينة',
+          field: 'location',
+          width:
+              Responsive.is1080(context) ? Responsive.width(8, context) : 110),
+      customPlutoColumn(
+          title: 'خيارات',
+          field: 'action',
+          width:
+              Responsive.is1200(context) ? Responsive.width(10, context) : 110,
+          renderer: (c) {
+            return Align(
+              alignment: Alignment.center,
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit,
+                  ),
+                  onPressed: () {},
+                  iconSize: 18,
+                  color: Colors.green,
+                  padding: const EdgeInsets.all(0),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete_forever,
+                  ),
+                  onPressed: () {
+                    print(c.cell.value.toString());
+                  },
+                  iconSize: 18,
+                  color: Colors.red,
+                  padding: const EdgeInsets.all(0),
+                )
+              ]),
+            );
+          }),
+      customPlutoColumn(title: '', field: 'final', width: 0),
+    ];
+  }
 }
 
 @JsonSerializable()
 class City {
-  String? id, name;
+  String? id, cost;
 
   factory City.fromJson(var json) => _$CityFromJson(json);
 
@@ -231,13 +382,13 @@ class City {
 
   City({
     this.id,
-    this.name,
+    this.cost,
   });
 }
 
 @JsonSerializable()
 class Area {
-  String? id, name, cityId;
+  String? id, cost, cityId;
 
   factory Area.fromJson(var json) => _$AreaFromJson(json);
 
@@ -245,7 +396,7 @@ class Area {
 
   Area({
     this.id,
-    this.name,
+    this.cost,
     this.cityId,
   });
 }
@@ -282,6 +433,7 @@ class Shipment {
       shipmentDetails,
       shipmentOn,
       notes;
+  Map<String, String>? keyWords;
   double? quantity, shippingPrice, shipmentPrice, discount, total;
   DateTime? arrivalDate, deliveryDate, collectionDate, paymentDate;
   List<Tracking>? tracking;
@@ -296,6 +448,7 @@ class Shipment {
     this.deliveryId,
     this.receiverName,
     this.receiverPhone1,
+    this.keyWords,
     this.receiverPhone2,
     this.cityFrom,
     this.areaFrom,
@@ -336,8 +489,8 @@ class Tracking {
 
 @JsonSerializable()
 class Location {
-  Map<String, City>? allCities;
-  Map<String, Area>? allAreas;
+  Map<String, dynamic>? allCities;
+  Map<String, dynamic>? allAreas;
 
   Location({
     this.allCities,
@@ -351,7 +504,7 @@ class Location {
 
 @JsonSerializable()
 class AllAdmins {
-  Map<String, Admin>? allAdmins;
+  Map<String, dynamic>? allAdmins;
 
   AllAdmins({
     this.allAdmins,
@@ -364,7 +517,7 @@ class AllAdmins {
 
 @JsonSerializable()
 class AllClients {
-  Map<String, ClientModel>? allClients;
+  Map<String, dynamic>? allClients;
 
   AllClients({
     this.allClients,
@@ -377,7 +530,7 @@ class AllClients {
 
 @JsonSerializable()
 class AllDelivery {
-  Map<String, Delivery>? allDelivery;
+  Map<String, dynamic>? allDelivery;
 
   AllDelivery({
     this.allDelivery,
@@ -386,4 +539,67 @@ class AllDelivery {
   factory AllDelivery.fromJson(var json) => _$AllDeliveryFromJson(json);
 
   Map<String, dynamic> toJson() => _$AllDeliveryToJson(this);
+}
+
+@JsonSerializable()
+class ClientShippingReport {
+   Map<int, int>? status;
+   double? earning, deliveryCost, totalPaid;
+   int? totalShipments;
+   DateTime? lastEdit;
+
+  ClientShippingReport({
+    this.earning,
+    this.deliveryCost,
+    this.totalPaid,
+    this.totalShipments,
+    this.lastEdit,
+    this.status,
+  });
+
+  factory ClientShippingReport.fromJson(var json) =>
+      _$ClientShippingReportFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ClientShippingReportToJson(this);
+}
+
+@JsonSerializable()
+class AdminReport {
+  Map<int, int>? status;
+  double? totalClientEarning, totalClientPaid, totalClientRemaining;
+  double? totalAdminEarning;
+
+  int? totalShipments,totalPaidShipments,totalRemainingShipments;
+  DateTime? lastEdit;
+
+  AdminReport({
+    this.totalClientEarning,
+    this.totalClientPaid,
+    this.totalClientRemaining,
+    this.totalAdminEarning,
+
+    this.totalShipments,
+    this.totalPaidShipments,
+    this.totalRemainingShipments,
+    this.lastEdit,
+    this.status,
+  });
+
+  factory AdminReport.fromJson(var json) =>
+      _$AdminReportFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdminReportToJson(this);
+}
+
+@JsonSerializable()
+class AllShipments {
+  Map<String, dynamic>? allShipment;
+
+  AllShipments({
+    this.allShipment,
+  });
+
+  factory AllShipments.fromJson(var json) => _$AllShipmentsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AllShipmentsToJson(this);
 }

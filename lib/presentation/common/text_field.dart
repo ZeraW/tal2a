@@ -57,7 +57,7 @@ class TextFormBuilder extends StatefulWidget {
   final bool isPassword, enabled, isRequired;
 
   final TextEditingController controller;
-  final String errorText;
+  final String? errorText;
   final int? maxLength, maxLines;
   final Color? activeBorderColor;
   final FocusNode? focusNode;
@@ -68,7 +68,7 @@ class TextFormBuilder extends StatefulWidget {
         this.isPassword = false,
         required this.controller,
         this.focusNode,
-        required this.errorText,
+        this.errorText = "هذا الحقل مطلوب",
         this.maxLines = 1,
         this.maxLength,
         this.enabled = true,
@@ -82,57 +82,62 @@ class TextFormBuilder extends StatefulWidget {
 class _TextFormBuilderState extends State<TextFormBuilder> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              widget.hint,
-              style:getBoldStyle(color: ColorManager.grey),
-            ),
-            const Spacer(),
-            widget.isRequired
-                ? const Text(
-              'مطلوب',
-              style: TextStyle(
-                  color: Colors.black38,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold),
-            )
-                :const SizedBox(),
-          ],
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        FormBuilderTextField(
-          focusNode: widget.focusNode,
-          autovalidateMode: widget.isRequired
-              ? AutovalidateMode.onUserInteraction
-              : AutovalidateMode.disabled,
-          name: widget.hint,
-          maxLength: widget.maxLength,
-          controller: widget.controller,
-          cursorColor: widget.activeBorderColor ??Colors.indigoAccent,
-          style: getBoldStyle(color: ColorManager.grey),
-          validator: widget.isRequired
-              ? (value) {
-            if (value!.isEmpty) {
-              return "× ${widget.errorText}";
+    return Padding(
+      padding: const EdgeInsets.all(AppPadding.p8),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                widget.hint,
+                style:getBoldStyle(color: ColorManager.grey),
+              ),
+              const Spacer(),
+              widget.isRequired
+                  ? const Text(
+                'مطلوب',
+                style: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold),
+              )
+                  :const SizedBox(),
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          FormBuilderTextField(
+            focusNode: widget.focusNode,
+            autovalidateMode: widget.isRequired
+                ? AutovalidateMode.onUserInteraction
+                : AutovalidateMode.disabled,
+            name: widget.hint,
+            textAlign: TextAlign.start,
+            minLines: 1,
+            maxLength: widget.maxLength,
+            controller: widget.controller,
+            cursorColor: widget.activeBorderColor ??Colors.indigoAccent,
+            style: getBoldStyle(color: ColorManager.grey),
+            validator: widget.isRequired
+                ? (value) {
+              if (value!.isEmpty) {
+                return "× ${widget.errorText}";
+              }
+              return null;
             }
-            return null;
-          }
-              : null,
-          enabled: widget.enabled,
-          maxLines: widget.maxLines,
-          textInputAction: TextInputAction.next,
+                : null,
+            enabled: widget.enabled,
+            maxLines: widget.maxLines,
+            textInputAction: TextInputAction.next,
 
-          //onChanged: onChange,
-          keyboardType:
-          widget.keyType ?? TextInputType.text,
-          obscureText: widget.isPassword,
-        ),
-      ],
+            //onChanged: onChange,
+            keyboardType:
+            widget.keyType ?? TextInputType.text,
+            obscureText: widget.isPassword,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -16,8 +16,7 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return MoldView(
         title: 'لوحة التحكم',
-        child: ChangeNotifierProvider.value(
-            value: MiProvider(), child: ImportExcelScreen()));
+        child: ImportExcelScreen());
   }
 }
 

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:tal2a/presentation/common/text_field.dart';
 
 import '../common/dropdown.dart';
+import '../models/models.dart';
 import '../provider/auth_provider.dart';
 import '../resources/styles_manager.dart';
 import '../resources/values_manager.dart';
@@ -19,12 +20,27 @@ class RegisterDeliveryView extends StatefulWidget {
 }
 
 class _RegisterDeliveryViewState extends State<RegisterDeliveryView> {
+ScrollController controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<RegisterDeliveryProvider>();
+    final provider = context.watch<RegisterDeliveryProvider>();
+    Location? location = context.watch<Location?>();
+
+    List<City>? cityList = location?.allCities?.entries.map((entry) {
+      City city = entry.value;
+      return city;
+    }).toList();
+
+
+    List<Area>? areaList = location?.allAreas?.entries.map((entry) {
+      Area area = entry.value;
+      return area;
+    }).toList();
 
     return Card(
         child: SingleChildScrollView(
+          controller: controller,
             child: Column(
       children: [
         Padding(
@@ -33,7 +49,7 @@ class _RegisterDeliveryViewState extends State<RegisterDeliveryView> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  provider.validate();
+                  provider.validate(context);
 
                 },
                 style: correctStyle(),
@@ -102,13 +118,17 @@ class _RegisterDeliveryViewState extends State<RegisterDeliveryView> {
                   const SizedBox(
                     width: 20,
                   ),
-                  const Expanded(
+                   Expanded(
                       flex: 3,
                       child: DropDownWidget(
                           title: 'المركبة',
                           hint: 'اختر نوع المركبة',
                           isRequired: true,
-                          list: [
+                          selectedText: provider.vehicle,
+                          onChange: (val) {
+                            provider.updateVehicle(val??'');
+                          },
+                          list: const[
                             'سيارة',
                             'موتوسيكل',
                           ])),
@@ -172,28 +192,36 @@ class _RegisterDeliveryViewState extends State<RegisterDeliveryView> {
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Expanded(
-                      child: DropDownWidget(
+                      child: cityList != null && areaList != null
+                          ? DropDownDynamicWidget(
                           title: 'المدينة',
                           hint: 'اختر مدينة',
+                          key:  UniqueKey(),
+                          selectedItem: provider.city,
+                          onChange: (val) {
+                            provider.updateCity(val, areaList);
+                          },
                           isRequired: true,
-                          list: [
-                        '1',
-                        '2',
-                      ])),
-                  SizedBox(
+                          list: cityList)
+                          : const SizedBox()),
+                  const SizedBox(
                     width: 20,
                   ),
                   Expanded(
-                      child: DropDownWidget(
+                      child:DropDownDynamicWidget(
                           title: 'المنطقة',
                           hint: 'اختر منطقة',
+                          selectedItem: provider.area,
+                          key:  UniqueKey(),
+
+
+                          onChange: (val) {
+                            provider.updateArea(val);
+                          },
                           isRequired: true,
-                          list: [
-                        '1',
-                        '2',
-                      ])),
+                          list: provider.areaList)),
                 ],
               ),
               const SizedBox(

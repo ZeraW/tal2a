@@ -32,7 +32,7 @@ class _RegisterAdminViewState extends State<RegisterAdminView> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          provider.validate();
+                          provider.validate(context);
 
                         },
                         style: correctStyle(),

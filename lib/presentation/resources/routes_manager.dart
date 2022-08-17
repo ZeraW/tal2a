@@ -18,6 +18,7 @@ import '../main/pickup_view.dart';
 import '../main/users/all_admins_view.dart';
 import '../main/users/all_clients_view.dart';
 import '../main/users/all_delivery_view.dart';
+import '../provider/add_shipment_provider.dart';
 import '../provider/auth_provider.dart';
 import '../register/register_admin_view.dart';
 
@@ -68,9 +69,9 @@ class RouteGenerator {
           pageBuilder: (context, state) => MaterialPage(
               key: state.pageKey,
               child: MoldView(
-                  title: 'العملاء', check: 2, child: ChangeNotifierProvider.value(
-                  value: MiProvider(),
-                  child: const AllClientsScreen()))),
+                  title: 'العملاء',
+                  check: 2,
+                  child: const AllClientsScreen())),
           routes: [
             GoRoute(
                 name: 'register-client',
@@ -93,9 +94,7 @@ class RouteGenerator {
               child: MoldView(
                   title: 'السائقين',
                   check: 2,
-                  child: ChangeNotifierProvider.value(
-                      value: MiProvider(),
-                      child: const AllDeliveryScreen()))),
+                  child: const AllDeliveryScreen())),
           routes: [
             GoRoute(
                 name: 'register-delivery',
@@ -151,8 +150,7 @@ class RouteGenerator {
                     child: MoldView(
                         title: 'تصدير شيت اكسل',
                         check: 3,
-                        child: ChangeNotifierProvider.value(
-                            value: MiProvider(), child: ImportExcelScreen()))),
+                        child: ImportExcelScreen())),
                 routes: []),
             GoRoute(
                 name: 'new-shipment',
@@ -162,7 +160,9 @@ class RouteGenerator {
                     child: MoldView(
                         title: 'اضافة شحنات',
                         check: 3,
-                        child: AddNewShipmentScreen())),
+                        child: ChangeNotifierProvider.value(
+                            value: AddShipmentProvider(),
+                            child:  AddNewShipmentScreen()))),
                 routes: []),
           ]),
       GoRoute(
@@ -181,29 +181,36 @@ class RouteGenerator {
                     child: MoldView(
                         title: 'إضافة مدينة',
                         check: 3,
-                        child: ChangeNotifierProvider.value(
-                            value: MiProvider(),
-                            child: const AddCityScreen()))),
+                        child: AddCityScreen())),
                 routes: []),
             GoRoute(
                 name: 'all-areas',
-                path: 'all-areas',
-                pageBuilder: (context, state) => MaterialPage(
-                    key: state.pageKey,
-                    child: MoldView(
-                        title: 'المناطق', check: 3, child: const AreaScreen())),
+                path: ':fid/all-areas',
+                pageBuilder: (context, state) {
+                  print('haha ${state.location}');
+
+                  String id = state.params['fid']!;
+                  print('haha ${id}');
+
+                  return MaterialPage(
+                      key: state.pageKey,
+                      child: MoldView(
+                          title: 'المناطق',
+                          check: 3,
+                          child:  AreaScreen(route: id,)));
+                },
                 routes: [
                   GoRoute(
                       name: 'add-area',
                       path: 'add-area',
-                      pageBuilder: (context, state) => MaterialPage(
+                      pageBuilder: (context, state) {
+                        print('haha ${state.location}');
+                        return MaterialPage(
                           key: state.pageKey,
                           child: MoldView(
                               title: 'إضافة منطقة',
                               check: 3,
-                              child: ChangeNotifierProvider.value(
-                                  value: MiProvider(),
-                                  child: const AddAreaScreen()))),
+                              child: AddAreaScreen(route: state.extra! as String,)));},
                       routes: []),
                 ]),
           ]),

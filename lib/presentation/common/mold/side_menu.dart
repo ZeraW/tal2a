@@ -34,48 +34,48 @@ class SideMenu extends StatelessWidget {
               SubCatModel(title: 'عميل', location: 'clients'),
               SubCatModel(title: 'سائق', location: 'drivers')
             ],),
+
+            const DrawerCatItem(title: 'الاعدادات', itemList: [
+              SubCatModel(title: 'المدن', location: 'all-cities'),
+            ],),
+
             DrawerCatItem(
                 title: 'لوحة التحكم',
                 selected: check == 1,
                 onTap: () {
                   context.goNamed('control-panel');
                 }),
-            DrawerListTile(
-              title: "بيك اب",
-              check: check == 2,
-              press: () {
-                context.goNamed('pickup');
-              },
-            ),
-            DrawerListTile(
-              title: "اضافة شحنات",
-              check: check == 3,
-              press: () {
-                context.goNamed('add-shipments');
-              },
-            ),
-            DrawerListTile(
-              title: "شحناتي",
-              check: check == 4,
-              press: () {},
-            ),
-            DrawerListTile(
-              title: "سجلات السداد",
-              check: check == 5,
-              press: () {},
-            ),
-            DrawerListTile(
-              title: "التقارير",
-              check: check == 6,
-              press: () {},
-            ),
-            DrawerListTile(
-              title: "تسجيل عميل جديد",
-              check: check == 7,
-              press: () {
-                context.goNamed('register-client');
-              },
-            ),
+            DrawerCatItem(
+                title: "بيك اب",
+                selected: check == 2,
+                onTap: () {
+                  context.goNamed('pickup');
+                }),
+
+            DrawerCatItem(
+                title: "اضافة شحنات",
+                selected: check == 3,
+                onTap: () {
+                  context.goNamed('add-shipments');
+                }),
+
+            DrawerCatItem(
+                title: "شحناتي",
+                selected: check == 4,
+                onTap: () {
+                }),
+            DrawerCatItem(
+                title: "سجلات السداد",
+                selected: check == 5,
+                onTap: () {
+                }),
+            DrawerCatItem(
+                title: "التقارير",
+                selected: check == 6,
+                isLast: true,
+                onTap: () {
+                }),
+
           ],
         ),
       ),
